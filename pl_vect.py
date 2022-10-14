@@ -205,7 +205,13 @@ plt.ylabel("$y$")
 plt.title("contour pressure plot")
 plt.savefig('p_contour.eps')
 
-
+fig3 = plt.figure("Figure 3")
+plt.clf() #clear the figure
+plt.contourf(x1_2d,x2_2d,np.sqrt(v1_2d**2+v2_2d**2), 50)
+plt.xlabel("$x$")
+plt.ylabel("$y$")
+plt.title("contour velocity magnitude plot")
+plt.savefig('vel_contour.eps')
 
 
 # compute velociy gradients
@@ -221,7 +227,7 @@ dv2dx1_2d,dv2dx2_2d = dphidx_dy(x1_2d[0:-1,0:-1],x2_2d[0:-1,0:-1],v2_2d)
 
 
 #################################### vector plot
-fig3 = plt.figure("Figure 1")
+fig4 = plt.figure("Figure 4")
 plt.clf() #clear the figure
 k=6# plot every forth vector
 ss=3.2 #vector length
