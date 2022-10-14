@@ -237,3 +237,14 @@ plt.ylabel("$y$")
 plt.title("vector plot")
 plt.savefig('vect_python.eps')
 #
+
+#Bernoulli velocity and pressure
+def V_b(x_i):
+    a = np.abs(x2_2d[x_i,0] - x2_2d[x_i,-1])
+    b = np.trapz(v1_2d[x_i,:],x2_2d[x_i,:])
+    return 1 / a * b
+
+rho = 998.29 #kg/m^3
+P_bern = np.zeros(ni)
+for i in range(0,ni):
+    P_bern[i] = V_b(i)**2 /2 * rho
