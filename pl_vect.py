@@ -248,3 +248,16 @@ rho = 998.29 #kg/m^3
 P_bern = np.zeros(ni)
 for i in range(0,ni):
     P_bern[i] = V_b(i)**2 /2 * rho
+
+#Starccm bulk pressure
+def P_b(x_i):
+    a = np.abs(x2_2d[x_i,0] - x2_2d[x_i,-1])
+    b = np.trapz(p_2d[x_i,:],x2_2d[x_i,:])
+    return 1/a * b
+
+P_star = np.zeros(ni)
+for i in range(0,ni):
+    P_star[i] = P_b(i)
+
+print('The pressure drop according to the Bernoulli principle is', str(np.abs(P_bern[-1] - P_bern[0])), 'Pascals.')
+print('The pressure drop according to a StarCCM+ simulation is', str(np.abs(P_star[-1] - P_star[0])), 'Pascals.')
