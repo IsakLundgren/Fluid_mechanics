@@ -194,7 +194,7 @@ axins1.tick_params(axis = 'both', which = 'major', labelsize = 10)
 axins1.yaxis.set_label_position("right")
 axins1.yaxis.tick_right()
 
-plt.savefig('Vel_python.eps')
+plt.savefig('Vel_python.eps', bbox_inches = 'tight')
 
 #################################### contour p
 fig2 = plt.figure("Figure 2")
@@ -203,7 +203,7 @@ plt.contourf(x1_2d,x2_2d,p_2d, 50)
 plt.xlabel("$x$")
 plt.ylabel("$y$")
 plt.title("contour pressure plot")
-plt.savefig('p_contour.eps')
+plt.savefig('p_contour.eps', bbox_inches = 'tight')
 
 fig3 = plt.figure("Figure 3")
 plt.clf() #clear the figure
@@ -211,8 +211,7 @@ plt.contourf(x1_2d,x2_2d,np.sqrt(v1_2d**2+v2_2d**2), 50)
 plt.xlabel("$x$")
 plt.ylabel("$y$")
 plt.title("contour velocity magnitude plot")
-plt.savefig('vel_contour.eps')
-
+plt.savefig('vel_contour.eps', bbox_inches = 'tight')
 
 # compute velociy gradients
 dv1dx1_2d= np.zeros((ni,nj))
@@ -235,7 +234,7 @@ plt.quiver(x1_2d[::k,::k],x2_2d[::k,::k],v1_2d[::k,::k],v2_2d[::k,::k],width=0.0
 plt.xlabel("$x$")
 plt.ylabel("$y$")
 plt.title("vector plot")
-plt.savefig('vect_python.eps')
+plt.savefig('vect_python.eps', bbox_inches = 'tight')
 #
 
 #########################################Bernoulli velocity and pressure
@@ -313,4 +312,17 @@ plt.plot(x_bot, C_f_bot, label='Bottom wall')
 plt.xlabel("$x$")
 plt.ylabel("$C_f$")
 plt.title("Skin friction plot")
-plt.savefig('skinFriction.eps')
+plt.savefig('skinFriction.eps', bbox_inches = 'tight')
+
+#################################################Vorticity
+
+w3 = dv2dx1_2d - dv1dx2_2d
+
+fig6 = plt.figure("Figure 6")
+plt.clf() #clear the figure
+plt.contourf(x1_2d,x2_2d,w3, 50)
+plt.xlabel("$x$")
+plt.ylabel("$y$")
+plt.title("Contour voritcity plot")
+plt.colorbar()
+plt.savefig('vort_contour.eps', bbox_inches = 'tight')
