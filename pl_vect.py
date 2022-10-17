@@ -280,11 +280,11 @@ with open('./CSVOutputs/SkinFrictionTop.csv') as csv_file:
         if n == 0:
             n += 1
         else:
-            ustar_top[n-1]=row[1]
-            yplus_top[n-1]=row[2]
-            shearstress_top[n-1]=row[3]
-            x_top[n-1]=row[4]
-            y_top[n-1]=row[5]
+            ustar_top[n-1]=row[0]
+            yplus_top[n-1]=row[1]
+            shearstress_top[n-1]=row[2]
+            x_top[n-1]=row[3]
+            y_top[n-1]=row[4]
             n += 1
 with open('./CSVOutputs/SkinFrictionBot.csv') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
@@ -293,9 +293,24 @@ with open('./CSVOutputs/SkinFrictionBot.csv') as csv_file:
         if n == 0:
             n += 1
         else:
-            ustar_bot[n-1]=row[1]
-            yplus_bot[n-1]=row[2]
-            shearstress_bot[n-1]=row[3]
-            x_bot[n-1]=row[4]
-            y_bot[n-1]=row[5]
+            ustar_bot[n-1]=row[0]
+            yplus_bot[n-1]=row[1]
+            shearstress_bot[n-1]=row[2]
+            x_bot[n-1]=row[3]
+            y_bot[n-1]=row[4]
             n += 1
+
+C_f_top = np.zeros(ni)
+C_f_bot = np.zeros(ni)
+for i in range(0, ni):
+    C_f_top[i] = shearstress_top[i] / (0.5 * rho * V_b(i)**2)
+    C_f_bot[i] = shearstress_bot[i] / (0.5 * rho * V_b(i)**2)
+
+fig5 = plt.figure("Figure 5")
+plt.clf() #clear the figure
+plt.plot(x_top, C_f_top, label='Top wall')
+plt.plot(x_bot, C_f_bot, label='Bottom wall')
+plt.xlabel("$x$")
+plt.ylabel("$C_f$")
+plt.title("Skin friction plot")
+plt.savefig('skinFriction.eps')
