@@ -49,7 +49,7 @@ with open('./CSVOutputs/output_standard-keps-low-re.csv') as csv_file:
     n = 0  
     for row in csv_reader:
         if n == 0:
-            print(f'Column names are {", ".join(row)}')
+            #print(f'Column names are {", ".join(row)}')
             n += 1
         else:
 #           if n < 10:  # print the 10 first lines
@@ -238,7 +238,7 @@ plt.title("vector plot")
 plt.savefig('vect_python.eps')
 #
 
-#Bernoulli velocity and pressure
+#########################################Bernoulli velocity and pressure
 def V_b(x_i):
     a = np.abs(x2_2d[x_i,0] - x2_2d[x_i,-1])
     b = np.trapz(v1_2d[x_i,:],x2_2d[x_i,:])
@@ -261,3 +261,41 @@ for i in range(0,ni):
 
 print('The pressure drop according to the Bernoulli principle is', str(np.abs(P_bern[-1] - P_bern[0])), 'Pascals.')
 print('The pressure drop according to a StarCCM+ simulation is', str(np.abs(P_star[-1] - P_star[0])), 'Pascals.')
+
+###########################################Skin friction and pressure
+ustar_top = np.zeros(ni)
+ustar_bot = np.zeros(ni)
+yplus_top = np.zeros(ni)
+yplus_bot = np.zeros(ni)
+shearstress_top = np.zeros(ni)
+shearstress_bot = np.zeros(ni)
+x_top = np.zeros(ni)
+x_bot = np.zeros(ni)
+y_top = np.zeros(ni)
+y_bot = np.zeros(ni)
+with open('./CSVOutputs/SkinFrictionTop.csv') as csv_file:
+    csv_reader = csv.reader(csv_file, delimiter=',')
+    n = 0  
+    for row in csv_reader:
+        if n == 0:
+            n += 1
+        else:
+            ustar_top[n-1]=row[1]
+            yplus_top[n-1]=row[2]
+            shearstress_top[n-1]=row[3]
+            x_top[n-1]=row[4]
+            y_top[n-1]=row[5]
+            n += 1
+with open('./CSVOutputs/SkinFrictionBot.csv') as csv_file:
+    csv_reader = csv.reader(csv_file, delimiter=',')
+    n = 0  
+    for row in csv_reader:
+        if n == 0:
+            n += 1
+        else:
+            ustar_bot[n-1]=row[1]
+            yplus_bot[n-1]=row[2]
+            shearstress_bot[n-1]=row[3]
+            x_bot[n-1]=row[4]
+            y_bot[n-1]=row[5]
+            n += 1
