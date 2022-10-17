@@ -258,6 +258,7 @@ P_star = np.zeros(ni)
 for i in range(0,ni):
     P_star[i] = P_b(i)
 
+print('mean flow velocity: ', str(V_b(int(ni/2))))
 print('The pressure drop according to the Bernoulli principle is', str(np.abs(P_bern[-1] - P_bern[0])), 'Pascals.')
 print('The pressure drop according to a StarCCM+ simulation is', str(np.abs(P_star[-1] - P_star[0])), 'Pascals.')
 
@@ -309,6 +310,7 @@ fig5 = plt.figure("Figure 5")
 plt.clf() #clear the figure
 plt.plot(x_top, C_f_top, label='Top wall')
 plt.plot(x_bot, C_f_bot, label='Bottom wall')
+plt.legend()
 plt.xlabel("$x$")
 plt.ylabel("$C_f$")
 plt.title("Skin friction plot")
@@ -326,3 +328,39 @@ plt.ylabel("$y$")
 plt.title("Contour voritcity plot")
 plt.colorbar()
 plt.savefig('vort_contour.eps', bbox_inches = 'tight')
+
+##################################################Turbulent viscosity
+
+mu = 0.001003 #Viscocity Pa * s
+ratio = vist_2d / mu
+
+fig7 = plt.figure("Figure 7")
+plt.clf() #clear the figure
+plt.contourf(x1_2d,x2_2d,ratio, 50)
+plt.xlabel("$x$")
+plt.ylabel("$y$")
+plt.title("Contour turbulent viscosity plot")
+plt.savefig('TurbVisc_contour.eps', bbox_inches = 'tight')
+
+#Levels
+fig8 = plt.figure("Figure 8")
+plt.clf()
+dni = ni / 6
+for i in range(1,5): #Divide in 6 parts
+    lab = 'x = ' + str(x1_2d[int(dni * i), 0])
+    plt.plot(x2_2d[int(dni * i), :], ratio[int(dni * i), :], label = lab)
+plt.legend()
+plt.xlabel("$y$")
+plt.ylabel("$\mu_t / \mu$")
+plt.savefig('TurbVisc_levels.eps', bbox_inches = 'tight')
+
+#y+
+yplus_calc = ustar_bot * y_bot * rho / mu
+
+fig9 = plt.figure("Figure 9")
+plt.clf() #clear the figure
+plt.plot(yplus_calc,ratio[:, 0])
+plt.xlabel("$y^+$")
+plt.ylabel("$\mu_t / \mu$")
+plt.title("Turbulent viscosity on bottom wall")
+plt.savefig('TurbVisc_yplus.eps', bbox_inches = 'tight')
