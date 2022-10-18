@@ -355,12 +355,19 @@ plt.ylabel("$\mu_t / \mu$")
 plt.savefig('TurbVisc_levels.eps', bbox_inches = 'tight')
 
 #y+
-yplus_calc = ustar_bot * y_bot * rho / mu
+
+x_iYp = int(ni/2)
+yplus_calc = ustar_bot[x_iYp] * x2_2d[x_iYp,:] * rho / mu
 
 fig9 = plt.figure("Figure 9")
 plt.clf() #clear the figure
-plt.plot(yplus_calc,ratio[:, 0])
-plt.xlabel("$y^+$")
-plt.ylabel("$\mu_t / \mu$")
+plt.plot(ratio[x_iYp, :], yplus_calc)
+plt.xlabel("$\mu_t / \mu$")
+plt.ylabel("$y^+$")
 plt.title("Turbulent viscosity on bottom wall")
+plt.yscale('log')
+plt.grid()
+plt.axis([0, 450, 1, 1000])
 plt.savefig('TurbVisc_yplus.eps', bbox_inches = 'tight')
+
+#Diffussion
