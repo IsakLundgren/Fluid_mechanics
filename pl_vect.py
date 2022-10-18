@@ -371,3 +371,5 @@ plt.axis([0, 450, 1, 1000])
 plt.savefig('TurbVisc_yplus.eps', bbox_inches = 'tight')
 
 #Diffussion
+
+diffus = vist_2d * (2 * dv1dx1_2d + (dv1dx2_2d + dv2dx1_2d))
