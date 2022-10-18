@@ -398,3 +398,27 @@ plt.axis([0, np.max(diffus[x_iYp,:]), 1, 1000])
 plt.savefig('ViscDiffus_yplus.eps', bbox_inches = 'tight')
 
 #########################################################Production term
+fig12 = plt.figure("Figure 12")
+plt.clf() #clear the figure
+plt.contourf(x1_2d,x2_2d,te_2d, 50)
+plt.xlabel("$x$")
+plt.ylabel("$y$")
+plt.title("Contour turbulent kinetic energy plot")
+plt.savefig('TurbKinEn_contour.eps', bbox_inches = 'tight')
+
+P_k = vist_2d * (2*dv1dx1_2d**2 + (dv1dx2_2d + dv2dx1_2d)**2 + 2*dv2dx2_2d**2)
+fig13 = plt.figure("Figure 13")
+plt.clf() #clear the figure
+plt.contourf(x1_2d,x2_2d,te_2d, 50)
+plt.xlabel("$x$")
+plt.ylabel("$y$")
+plt.title("Contour $k_e$ production term plot")
+plt.savefig('KinEProd_contour.eps', bbox_inches = 'tight')
+
+fig14 = plt.figure("Figure 14")
+plt.clf() #clear the figure
+plt.contourf(x1_2d,x2_2d,vist_2d, 50)
+plt.xlabel("$x$")
+plt.ylabel("$y$")
+plt.title("Contour turbulent viscosity plot")
+plt.savefig('TurbVisc_contour.eps', bbox_inches = 'tight')
