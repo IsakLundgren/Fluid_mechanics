@@ -330,7 +330,7 @@ plt.colorbar()
 plt.savefig('vort_contour.eps', bbox_inches = 'tight')
 
 ##################################################Turbulent viscosity
-
+#############Might have to be divided by rho######
 mu = 0.001003 #Viscocity Pa * s
 ratio = vist_2d / mu
 
@@ -355,7 +355,6 @@ plt.ylabel("$\mu_t / \mu$")
 plt.savefig('TurbVisc_levels.eps', bbox_inches = 'tight')
 
 #y+
-
 x_iYp = int(ni/2)
 yplus_calc = ustar_bot[x_iYp] * x2_2d[x_iYp,:] * rho / mu
 
@@ -370,6 +369,32 @@ plt.grid()
 plt.axis([0, 450, 1, 1000])
 plt.savefig('TurbVisc_yplus.eps', bbox_inches = 'tight')
 
-#Diffussion
-
+#########################################################Turbulent Diffussion
+#########CHECK SIZE, SEEMS INCORRECT#####################
 diffus = vist_2d * (2 * dv1dx1_2d + (dv1dx2_2d + dv2dx1_2d))
+
+fig10 = plt.figure("Figure 10")
+plt.clf()
+dni = ni / 6
+for i in range(1,5): #Divide in 6 parts
+    lab = 'x = ' + str(x1_2d[int(dni * i), 0])
+    plt.plot(x2_2d[int(dni * i), :], diffus[int(dni * i), :], label = lab)
+#plt.legend()
+plt.xlabel("$y$")
+plt.ylabel("$Something$")
+plt.savefig('ViscDiffus_levels.eps', bbox_inches = 'tight')
+
+#y+
+
+fig11 = plt.figure("Figure 11")
+plt.clf() #clear the figure
+plt.plot(diffus[x_iYp, :], yplus_calc)
+plt.xlabel("$Something$")
+plt.ylabel("$y^+$")
+plt.title("Turbulent viscosity on bottom wall")
+plt.yscale('log')
+plt.grid()
+plt.axis([0, np.max(diffus[x_iYp,:]), 1, 1000])
+plt.savefig('ViscDiffus_yplus.eps', bbox_inches = 'tight')
+
+#########################################################Production term
