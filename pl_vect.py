@@ -197,7 +197,7 @@ axins1.yaxis.tick_right()
 plt.savefig('Vel_python.eps', bbox_inches = 'tight')
 
 #################################### contour p
-fig2 = plt.figure("Figure 2")
+fig2 = plt.figure("Figure 2",figsize=(10,7))
 plt.clf() #clear the figure
 plt.contourf(x1_2d,x2_2d,p_2d, 50)
 plt.xlabel("$x$")
@@ -205,7 +205,7 @@ plt.ylabel("$y$")
 plt.title("contour pressure plot")
 plt.savefig('p_contour.eps', bbox_inches = 'tight')
 
-fig3 = plt.figure("Figure 3")
+fig3 = plt.figure("Figure 3",figsize=(10,7))
 plt.clf() #clear the figure
 plt.contourf(x1_2d,x2_2d,np.sqrt(v1_2d**2+v2_2d**2), 50)
 plt.xlabel("$x$")
@@ -226,7 +226,7 @@ dv2dx1_2d,dv2dx2_2d = dphidx_dy(x1_2d[0:-1,0:-1],x2_2d[0:-1,0:-1],v2_2d)
 
 
 #################################### vector plot
-fig4 = plt.figure("Figure 4")
+fig4 = plt.figure("Figure 4",figsize=(10,7))
 plt.clf() #clear the figure
 k=6# plot every forth vector
 ss=3.2 #vector length
@@ -306,7 +306,7 @@ for i in range(0, ni):
     C_f_top[i] = shearstress_top[i] / (0.5 * rho * V_b(i)**2)
     C_f_bot[i] = shearstress_bot[i] / (0.5 * rho * V_b(i)**2)
 
-fig5 = plt.figure("Figure 5")
+fig5 = plt.figure("Figure 5",figsize=(10,7))
 plt.clf() #clear the figure
 plt.plot(x_top, C_f_top, label='Top wall')
 plt.plot(x_bot, C_f_bot, label='Bottom wall')
@@ -320,7 +320,7 @@ plt.savefig('skinFriction.eps', bbox_inches = 'tight')
 
 w3 = dv2dx1_2d - dv1dx2_2d
 
-fig6 = plt.figure("Figure 6")
+fig6 = plt.figure("Figure 6",figsize=(10,7))
 plt.clf() #clear the figure
 plt.contourf(x1_2d,x2_2d,w3, 50)
 plt.xlabel("$x$")
@@ -334,7 +334,7 @@ plt.savefig('vort_contour.eps', bbox_inches = 'tight')
 mu = 0.001003 #Viscocity Pa * s
 ratio = vist_2d / mu
 
-fig7 = plt.figure("Figure 7")
+fig7 = plt.figure("Figure 7",figsize=(10,7))
 plt.clf() #clear the figure
 plt.contourf(x1_2d,x2_2d,ratio, 50)
 plt.xlabel("$x$")
@@ -343,7 +343,7 @@ plt.title("Contour turbulent viscosity plot")
 plt.savefig('TurbVisc_contour.eps', bbox_inches = 'tight')
 
 #Levels
-fig8 = plt.figure("Figure 8")
+fig8 = plt.figure("Figure 8",figsize=(10,7))
 plt.clf()
 dni = ni / 6
 for i in range(1,5): #Divide in 6 parts
@@ -354,12 +354,13 @@ plt.xlabel("$y$")
 plt.ylabel("$\mu_t / \mu$")
 plt.savefig('TurbVisc_levels.eps', bbox_inches = 'tight')
 
+
 #y+
 
 x_iYp = int(ni/2)
 yplus_calc = ustar_bot[x_iYp] * x2_2d[x_iYp,:] * rho / mu
 
-fig9 = plt.figure("Figure 9")
+fig9 = plt.figure("Figure 9",figsize=(10,7))
 plt.clf() #clear the figure
 plt.plot(ratio[x_iYp, :], yplus_calc)
 plt.xlabel("$\mu_t / \mu$")
@@ -373,3 +374,5 @@ plt.savefig('TurbVisc_yplus.eps', bbox_inches = 'tight')
 #Diffussion
 
 diffus = vist_2d * (2 * dv1dx1_2d + (dv1dx2_2d + dv2dx1_2d))
+
+plt.show(block=True)
