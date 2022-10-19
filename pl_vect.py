@@ -360,7 +360,7 @@ dni = ni / 6
 for i in range(1,5): #Divide in 6 parts
     lab = 'x = ' + str(x1_2d[int(dni * i), 0])
     plt.plot(ratio[int(dni * i), :], (x2_2d[int(dni * i), :] - x2_2d[int(dni * i), 0]), label = lab)
-plt.legend()
+plt.legend(fontsize=23)
 plt.ylabel("$y$")
 plt.xlabel("$\mu_t / \mu$")
 plt.savefig('TurbVisc_levels.eps', bbox_inches = 'tight')
@@ -383,34 +383,50 @@ plt.axis([0, 450, 1, 1000])
 plt.savefig('TurbVisc_yplus.eps', bbox_inches = 'tight')
 
 #########################################################Turbulent Diffussion
-#########CHECK SIZE, SEEMS INCORRECT#####################
-diffus = vist_2d * (2 * dv1dx1_2d + (dv1dx2_2d + dv2dx1_2d))
+nu_t = vist_2d / rho
+symm1 = 2 * dv1dx1_2d
+symm2 = 2 * dv2dx2_2d
+assym = dv1dx2_2d + dv2dx1_2d
+diffus1_1,temp1 = dphidx_dy(x1_2d[0:-1,0:-1],x2_2d[0:-1,0:-1], nu_t * symm1)
+temp2,diffus2_2 = dphidx_dy(x1_2d[0:-1,0:-1],x2_2d[0:-1,0:-1], nu_t * symm2)
+diffus2_1,diffus1_2 = dphidx_dy(x1_2d[0:-1,0:-1],x2_2d[0:-1,0:-1], nu_t * assym)
+diffus_t1 = diffus1_1 + diffus1_2
+diffus_t2 = diffus2_1 + diffus2_2
 
+nu = mu / rho
+diffus1_1,temp1 = dphidx_dy(x1_2d[0:-1,0:-1],x2_2d[0:-1,0:-1], nu * symm1)
+temp2,diffus2_2 = dphidx_dy(x1_2d[0:-1,0:-1],x2_2d[0:-1,0:-1], nu * symm2)
+diffus2_1,diffus1_2 = dphidx_dy(x1_2d[0:-1,0:-1],x2_2d[0:-1,0:-1], nu * assym)
+diffus_v1 = diffus1_1 + diffus1_2
+diffus_v2 = diffus2_1 + diffus2_2
+
+#######Måst ändras
 fig10 = plt.figure("Figure 10",figsize=(15,6))
 plt.rcParams['font.size'] = '30'
 plt.clf()
 dni = ni / 6
 for i in range(1,5): #Divide in 6 parts
     lab = 'x = ' + str(x1_2d[int(dni * i), 0])
-    plt.plot(x2_2d[int(dni * i), :], diffus[int(dni * i), :], label = lab)
+    plt.plot(x2_2d[int(dni * i), :], diffus_t1[int(dni * i), :], label = lab)
 #plt.legend()
-plt.xlabel("$y$")
-plt.ylabel("$Something$")
+plt.ylabel("$y$")
+plt.xlabel("$Diffusion terms$")
+plt.legend
 plt.savefig('ViscDiffus_levels.eps', bbox_inches = 'tight')
 
 #y+
 
-fig11 = plt.figure("Figure 11",figsize=(15,6))
-plt.rcParams['font.size'] = '30'
-plt.clf() #clear the figure
-plt.plot(diffus[x_iYp, :], yplus_calc)
-plt.xlabel("$Something$")
-plt.ylabel("$y^+$")
-plt.title("Turbulent viscosity on bottom wall")
-plt.yscale('log')
-plt.grid()
-plt.axis([0, np.max(diffus[x_iYp,:]), 1, 1000])
-plt.savefig('ViscDiffus_yplus.eps', bbox_inches = 'tight')
+#fig11 = plt.figure("Figure 11",figsize=(15,6))
+#plt.rcParams['font.size'] = '30'
+#plt.clf() #clear the figure
+#plt.plot(diffus[x_iYp, :], yplus_calc)
+#plt.xlabel("$Something$")
+#plt.ylabel("$y^+$")
+#plt.title("Turbulent viscosity on bottom wall")
+#plt.yscale('log')
+#plt.grid()
+#plt.axis([0, np.max(diffus[x_iYp,:]), 1, 1000])
+#plt.savefig('ViscDiffus_yplus.eps', bbox_inches = 'tight')
 
 #########################################################Production term
 fig12 = plt.figure("Figure 12",figsize=(15,6))
@@ -478,16 +494,25 @@ print('Top: ',str(np.max(dispRateCalcTop - diss_2d[:,-1])))
 
 nOS = 7 #Number of stations
 pts = np.zeros(nOS)
-i1through6 = np.zeros(nOS)
 fileDir = ["./XYInputs/xh" for x in range(nOS)]
 
 for i in range(nOS):
     pts[i] = i+1
 pts[-1] = pts[-1] + 1
 
+fig15 = plt.figure("Figure 15")
+plt.rcParams['font.size'] = '30'
 for i in range(nOS):
-    i1through6[i] = (np.abs(pts[i] * hmax-x1_2d[:,[i]])).argmin()
+    j = (np.abs(pts[i] * hmax-x1_2d[:,[i]])).argmin()
     fileDir[i] = fileDir[i] + str('{0:.0f}'.format(pts[i])) + ".xy"
-    print(fileDir[i])
+    #print(fileDir[i])
+    xh=np.genfromtxt(fileDir[i], comments="%")
+    yExp = xh[:,0]
+    v1Exp = xh[:,1]
+    plt.plot(v1_2d[j,:],x2_2d[i1,:],'b-')
+    plt.plot(v1Exp,yExp,'bo')
 
-
+plt.xlabel("$V_1$")
+plt.ylabel("$x_2$")
+plt.title("Velocity")
+plt.savefig('VelExpComp.eps', bbox_inches = 'tight')
