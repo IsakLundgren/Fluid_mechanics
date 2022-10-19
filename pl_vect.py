@@ -454,3 +454,4 @@ print('Biggest differences in dissipation rates calculated with python/starccm+'
 print('Bottom: ', str(np.max(dispRateCalcBot - diss_2d[:,1])))
 print('Top: ',str(np.max(dispRateCalcTop - diss_2d[:,-1])))
 
+#############################################################
