@@ -168,9 +168,10 @@ uv_Exp_1=xh1[:,5] # Shear Reynolds stress (Re_xy) along wall-normal direction (x
 #For example, "xh005.xy", "xh05.xy" and "xh1.xy" are the measurment data at x/h=0.05,x/h=0.5 and x/h=1, repectively.
 
 #################################### plot v_1 vs. x_2 at x_1=hmax
-fig1,ax1 = plt.subplots()
+fig1,ax1 = plt.subplots(figsize=(15,6))
 xx=hmax
 i1 = (np.abs(xx-x1_2d[:,1])).argmin()  # find index which closest fits xx
+plt.rcParams['font.size'] = '30'
 plt.plot(v1_2d[i1,:],x2_2d[i1,:],'b-')
 plt.plot(v1_Exp_1,y_1,'bo')
 plt.xlabel("$V_1$")
@@ -197,20 +198,24 @@ axins1.yaxis.tick_right()
 plt.savefig('Vel_python.eps', bbox_inches = 'tight')
 
 #################################### contour p
-fig2 = plt.figure("Figure 2",figsize=(10,7))
+fig2 = plt.figure("Figure 2",figsize=(15,6))
+plt.rcParams['font.size'] = '30'
 plt.clf() #clear the figure
 plt.contourf(x1_2d,x2_2d,p_2d, 50)
 plt.xlabel("$x$")
 plt.ylabel("$y$")
 plt.title("contour pressure plot")
+plt.colorbar()
 plt.savefig('p_contour.eps', bbox_inches = 'tight')
 
-fig3 = plt.figure("Figure 3",figsize=(10,7))
+fig3 = plt.figure("Figure 3",figsize=(15,6))
+plt.rcParams['font.size'] = '30'
 plt.clf() #clear the figure
 plt.contourf(x1_2d,x2_2d,np.sqrt(v1_2d**2+v2_2d**2), 50)
 plt.xlabel("$x$")
 plt.ylabel("$y$")
 plt.title("contour velocity magnitude plot")
+plt.colorbar()
 plt.savefig('vel_contour.eps', bbox_inches = 'tight')
 
 # compute velociy gradients
@@ -226,7 +231,8 @@ dv2dx1_2d,dv2dx2_2d = dphidx_dy(x1_2d[0:-1,0:-1],x2_2d[0:-1,0:-1],v2_2d)
 
 
 #################################### vector plot
-fig4 = plt.figure("Figure 4",figsize=(10,7))
+fig4 = plt.figure("Figure 4",figsize=(15,6))
+plt.rcParams['font.size'] = '30'
 plt.clf() #clear the figure
 k=6# plot every forth vector
 ss=3.2 #vector length
@@ -306,7 +312,8 @@ for i in range(0, ni):
     C_f_top[i] = shearstress_top[i] / (0.5 * rho * V_b(i)**2)
     C_f_bot[i] = shearstress_bot[i] / (0.5 * rho * V_b(i)**2)
 
-fig5 = plt.figure("Figure 5",figsize=(10,7))
+fig5 = plt.figure("Figure 5",figsize=(15,6))
+plt.rcParams['font.size'] = '30'
 plt.clf() #clear the figure
 plt.plot(x_top, C_f_top, label='Top wall')
 plt.plot(x_bot, C_f_bot, label='Bottom wall')
@@ -320,7 +327,8 @@ plt.savefig('skinFriction.eps', bbox_inches = 'tight')
 
 w3 = dv2dx1_2d - dv1dx2_2d
 
-fig6 = plt.figure("Figure 6",figsize=(10,7))
+fig6 = plt.figure("Figure 6",figsize=(15,6))
+plt.rcParams['font.size'] = '30'
 plt.clf() #clear the figure
 plt.contourf(x1_2d,x2_2d,w3, 50)
 plt.xlabel("$x$")
@@ -334,16 +342,19 @@ plt.savefig('vort_contour.eps', bbox_inches = 'tight')
 mu = 0.001003 #Viscocity Pa * s
 ratio = vist_2d / mu
 
-fig7 = plt.figure("Figure 7",figsize=(10,7))
+fig7 = plt.figure("Figure 7",figsize=(15,6))
+plt.rcParams['font.size'] = '30'
 plt.clf() #clear the figure
 plt.contourf(x1_2d,x2_2d,ratio, 50)
 plt.xlabel("$x$")
 plt.ylabel("$y$")
 plt.title("Contour turbulent viscosity plot")
-plt.savefig('TurbVisc_contour.eps', bbox_inches = 'tight')
+plt.colorbar()
+plt.savefig('TurbViscRatio_contour.eps', bbox_inches = 'tight')
 
 #Levels
-fig8 = plt.figure("Figure 8",figsize=(10,7))
+fig8 = plt.figure("Figure 8",figsize=(15,6))
+plt.rcParams['font.size'] = '30'
 plt.clf()
 dni = ni / 6
 for i in range(1,5): #Divide in 6 parts
@@ -359,7 +370,8 @@ plt.savefig('TurbVisc_levels.eps', bbox_inches = 'tight')
 x_iYp = int(ni/2)
 yplus_calc = ustar_bot[x_iYp] * (x2_2d[x_iYp,:] - x2_2d[x_iYp,0]) * rho / mu
 
-fig9 = plt.figure("Figure 9",figsize=(10,7))
+fig9 = plt.figure("Figure 9",figsize=(15,6))
+plt.rcParams['font.size'] = '30'
 plt.clf() #clear the figure
 plt.plot(ratio[x_iYp, :], yplus_calc)
 plt.xlabel("$\mu_t / \mu$")
@@ -374,7 +386,8 @@ plt.savefig('TurbVisc_yplus.eps', bbox_inches = 'tight')
 #########CHECK SIZE, SEEMS INCORRECT#####################
 diffus = vist_2d * (2 * dv1dx1_2d + (dv1dx2_2d + dv2dx1_2d))
 
-fig10 = plt.figure("Figure 10")
+fig10 = plt.figure("Figure 10",figsize=(15,6))
+plt.rcParams['font.size'] = '30'
 plt.clf()
 dni = ni / 6
 for i in range(1,5): #Divide in 6 parts
@@ -387,7 +400,8 @@ plt.savefig('ViscDiffus_levels.eps', bbox_inches = 'tight')
 
 #y+
 
-fig11 = plt.figure("Figure 11")
+fig11 = plt.figure("Figure 11",figsize=(15,6))
+plt.rcParams['font.size'] = '30'
 plt.clf() #clear the figure
 plt.plot(diffus[x_iYp, :], yplus_calc)
 plt.xlabel("$Something$")
@@ -399,29 +413,35 @@ plt.axis([0, np.max(diffus[x_iYp,:]), 1, 1000])
 plt.savefig('ViscDiffus_yplus.eps', bbox_inches = 'tight')
 
 #########################################################Production term
-fig12 = plt.figure("Figure 12")
+fig12 = plt.figure("Figure 12",figsize=(15,6))
+plt.rcParams['font.size'] = '30'
 plt.clf() #clear the figure
 plt.contourf(x1_2d,x2_2d,te_2d, 50)
 plt.xlabel("$x$")
 plt.ylabel("$y$")
 plt.title("Contour turbulent kinetic energy plot")
+plt.colorbar()
 plt.savefig('TurbKinEn_contour.eps', bbox_inches = 'tight')
 
 P_k = vist_2d * (2*dv1dx1_2d**2 + (dv1dx2_2d + dv2dx1_2d)**2 + 2*dv2dx2_2d**2)
-fig13 = plt.figure("Figure 13")
+fig13 = plt.figure("Figure 13",figsize=(15,6))
+plt.rcParams['font.size'] = '30'
 plt.clf() #clear the figure
 plt.contourf(x1_2d,x2_2d,te_2d, 50)
 plt.xlabel("$x$")
 plt.ylabel("$y$")
 plt.title("Contour $k_e$ production term plot")
+plt.colorbar()
 plt.savefig('KinEProd_contour.eps', bbox_inches = 'tight')
 
-fig14 = plt.figure("Figure 14")
+fig14 = plt.figure("Figure 14",figsize=(13,6.5))
+plt.rcParams['font.size'] = '30'
 plt.clf() #clear the figure
 plt.contourf(x1_2d,x2_2d,vist_2d, 50)
 plt.xlabel("$x$")
 plt.ylabel("$y$")
 plt.title("Contour turbulent viscosity plot")
+plt.colorbar()
 plt.savefig('TurbVisc_contour.eps', bbox_inches = 'tight')
 
 ###########################################################Wall boundary conditions epsilon
