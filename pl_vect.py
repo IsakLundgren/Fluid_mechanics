@@ -454,4 +454,20 @@ print('Biggest differences in dissipation rates calculated with python/starccm+'
 print('Bottom: ', str(np.max(dispRateCalcBot - diss_2d[:,1])))
 print('Top: ',str(np.max(dispRateCalcTop - diss_2d[:,-1])))
 
-#############################################################
+#############################################################Compare with experimental data for v_1
+
+nOS = 7 #Number of stations
+pts = np.zeros(nOS)
+i1through6 = np.zeros(nOS)
+fileDir = ["./XYInputs/xh" for x in range(nOS)]
+
+for i in range(nOS):
+    pts[i] = i+1
+pts[-1] = pts[-1] + 1
+
+for i in range(nOS):
+    i1through6[i] = (np.abs(pts[i] * hmax-x1_2d[:,[i]])).argmin()
+    fileDir[i] = fileDir[i] + str('{0:.0f}'.format(pts[i])) + ".xy"
+    print(fileDir[i])
+
+
