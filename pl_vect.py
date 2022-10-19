@@ -348,16 +348,16 @@ plt.clf()
 dni = ni / 6
 for i in range(1,5): #Divide in 6 parts
     lab = 'x = ' + str(x1_2d[int(dni * i), 0])
-    plt.plot(x2_2d[int(dni * i), :], ratio[int(dni * i), :], label = lab)
+    plt.plot(ratio[int(dni * i), :], (x2_2d[int(dni * i), :] - x2_2d[int(dni * i), 0]), label = lab)
 plt.legend()
-plt.xlabel("$y$")
-plt.ylabel("$\mu_t / \mu$")
+plt.ylabel("$y$")
+plt.xlabel("$\mu_t / \mu$")
 plt.savefig('TurbVisc_levels.eps', bbox_inches = 'tight')
 
 
 #y+
 x_iYp = int(ni/2)
-yplus_calc = ustar_bot[x_iYp] * x2_2d[x_iYp,:] * rho / mu
+yplus_calc = ustar_bot[x_iYp] * (x2_2d[x_iYp,:] - x2_2d[x_iYp,0]) * rho / mu
 
 fig9 = plt.figure("Figure 9",figsize=(10,7))
 plt.clf() #clear the figure
@@ -423,3 +423,34 @@ plt.xlabel("$x$")
 plt.ylabel("$y$")
 plt.title("Contour turbulent viscosity plot")
 plt.savefig('TurbVisc_contour.eps', bbox_inches = 'tight')
+
+###########################################################Wall boundary conditions epsilon
+
+wDTop = np.ones(ni) * 1000
+wDBot = np.ones(ni) * 1000
+with open('./CSVOutputs/WallDistanceTop.csv') as csv_file:
+    csv_reader = csv.reader(csv_file, delimiter=',')
+    n = 0  
+    for row in csv_reader:
+        if n == 0:
+            n += 1
+        else:
+            wDTop[n-1]=row[0]
+            n += 1
+with open('./CSVOutputs/WallDistanceBot.csv') as csv_file:
+    csv_reader = csv.reader(csv_file, delimiter=',')
+    n = 0  
+    for row in csv_reader:
+        if n == 0:
+            n += 1
+        else:
+            wDBot[n-1]=row[0]
+            n += 1            
+
+dispRateCalcTop = 2 * mu / rho * te_2d[:,-1] / (wDTop)**2
+dispRateCalcBot = 2 * mu / rho * te_2d[:,1] / (wDBot)**2
+
+print('Biggest differences in dissipation rates calculated with python/starccm+')
+print('Bottom: ', str(np.max(dispRateCalcBot - diss_2d[:,1])))
+print('Top: ',str(np.max(dispRateCalcTop - diss_2d[:,-1])))
+
