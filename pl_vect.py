@@ -443,7 +443,7 @@ P_k = vist_2d * (2*dv1dx1_2d**2 + (dv1dx2_2d + dv2dx1_2d)**2 + 2*dv2dx2_2d**2)
 fig13 = plt.figure("Figure 13",figsize=(15,6))
 plt.rcParams['font.size'] = '30'
 plt.clf() #clear the figure
-plt.contourf(x1_2d,x2_2d,te_2d, 50)
+plt.contourf(x1_2d,x2_2d,P_k, 50)
 plt.xlabel("$x$")
 plt.ylabel("$y$")
 plt.title("Contour $k_e$ production term plot")
@@ -486,6 +486,7 @@ with open('./CSVOutputs/WallDistanceBot.csv') as csv_file:
 dispRateCalcTop = 2 * mu / rho * te_2d[:,-1] / (wDTop)**2
 dispRateCalcBot = 2 * mu / rho * te_2d[:,1] / (wDBot)**2
 
+print('The average value for the dissipation on both boundaries was ', str(np.average((diss_2d[:,1] + diss_2d[:,-1]) / 2)))
 print('Biggest differences in dissipation rates calculated with python/starccm+')
 print('Bottom: ', str(np.max(dispRateCalcBot - diss_2d[:,1])))
 print('Top: ',str(np.max(dispRateCalcTop - diss_2d[:,-1])))
