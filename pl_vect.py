@@ -400,7 +400,6 @@ diffus2_1,diffus1_2 = dphidx_dy(x1_2d[0:-1,0:-1],x2_2d[0:-1,0:-1], nu * assym)
 diffus_v1 = diffus1_1 + diffus1_2
 diffus_v2 = diffus2_1 + diffus2_2
 
-#######Måst ändras
 noOfPlots = 4
 
 fig10, axs = plt.subplots(1,noOfPlots, figsize=(13,6.5))
@@ -411,30 +410,18 @@ dni = ni / (noOfPlots + 1)
 for i in range(0,noOfPlots):
     axs[i].plot(diffus_t1[int(dni * i + 1), :],x2_2d[int(dni * i + 1), :], label = 'Turbulent')
     axs[i].plot(diffus_v1[int(dni * i + 1), :],x2_2d[int(dni * i + 1), :], label = 'Viscous', linestyle='dotted')
-
-#for i in range(0,noOfPlots-1): #Divide in 6 parts
-#    axs[i].title = 'x = ' + str(x1_2d[int(dni * i), 0])
-#    axs[i].plot(diffus_t1[int(dni * i + 1), :],x2_2d[int(dni * i + 1), :], label = 'Turbulent')
-#    axs[i].plot(diffus_v1[int(dni * i + 1), :],x2_2d[int(dni * i + 1), :], label = 'Viscous', linestyle='dotted')
-#plt.legend()
-#plt.ylabel("$y$")
-#plt.xlabel("$Diffusion terms$")
-#plt.legend
-plt.show(block = True)
 plt.savefig('ViscDiffus_levels.eps', bbox_inches = 'tight')
 
 #y+
-
 fig11 = plt.figure("Figure 11",figsize=(13,6.5))
 plt.rcParams['font.size'] = '30'
 plt.clf() #clear the figure
-plt.plot(diffus_v1[x_iYp, :], yplus_calc)
+plt.plot(diffus_v1[x_iYp, :], yplus_calc, linestyle = 'dotted')
+plt.plot(diffus_t1[x_iYp, :], yplus_calc)
 plt.xlabel("$Something$")
 plt.ylabel("$y^+$")
 plt.title("Turbulent viscosity on bottom wall")
-plt.yscale('log')
 plt.grid()
-plt.axis([0, np.max(diffus_v1[x_iYp,:]), 1, 1000])
 plt.savefig('ViscDiffus_yplus.eps', bbox_inches = 'tight')
 #########################################################Production term
 fig12 = plt.figure("Figure 12",figsize=(13,6.5))
