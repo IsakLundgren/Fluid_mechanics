@@ -401,16 +401,15 @@ diffus_v1 = diffus1_1 + diffus1_2
 diffus_v2 = diffus2_1 + diffus2_2
 
 noOfPlots = 4
-
+plt.rcParams['font.size'] = '10'
 fig10, axs = plt.subplots(1,noOfPlots, figsize=(13,6.5))
-fig10.suptitle('Vertically stacked subplots')
-
-plt.rcParams['font.size'] = '30'
+fig10.suptitle('Viscous and Turbulent diffusions at varied x_1')
 dni = ni / (noOfPlots + 1)
 for i in range(0,noOfPlots):
     axs[i].plot(diffus_t1[int(dni * i + 1), :],x2_2d[int(dni * i + 1), :], label = 'Turbulent')
     axs[i].plot(diffus_v1[int(dni * i + 1), :],x2_2d[int(dni * i + 1), :], label = 'Viscous', linestyle='dotted')
 plt.savefig('ViscDiffus_levels.eps', bbox_inches = 'tight')
+plt.legend()
 
 #y+
 fig11 = plt.figure("Figure 11",figsize=(13,6.5))
@@ -418,11 +417,12 @@ plt.rcParams['font.size'] = '30'
 plt.clf() #clear the figure
 plt.plot(diffus_v1[x_iYp, :], yplus_calc, linestyle = 'dotted')
 plt.plot(diffus_t1[x_iYp, :], yplus_calc)
-plt.xlabel("$Something$")
+plt.xlabel("Diffusion Magnitude m^2/s")
 plt.ylabel("$y^+$")
 plt.title("Turbulent viscosity on bottom wall")
 plt.grid()
 plt.savefig('ViscDiffus_yplus.eps', bbox_inches = 'tight')
+
 #########################################################Production term
 fig12 = plt.figure("Figure 12",figsize=(13,6.5))
 plt.rcParams['font.size'] = '30'
@@ -496,7 +496,7 @@ for i in range(nOS):
     pts[i] = i+1
 pts[-1] = pts[-1] + 1
 
-fig15 = plt.figure("Figure 15")
+fig15 = plt.figure("Figure 15",figsize=(13,6.5))
 plt.rcParams['font.size'] = '30'
 for i in range(nOS):
     j = (np.abs(pts[i] * hmax-x1_2d[:,[i]])).argmin()
@@ -512,3 +512,5 @@ plt.xlabel("$V_1$")
 plt.ylabel("$x_2$")
 plt.title("Velocity")
 plt.savefig('VelExpComp.eps', bbox_inches = 'tight')
+
+plt.show(block=True)
