@@ -244,15 +244,26 @@ plt.savefig('vect_python.eps', bbox_inches = 'tight')
 #
 
 #########################################Bernoulli velocity and pressure
+
 def V_b(x_i):
     a = np.abs(x2_2d[x_i,0] - x2_2d[x_i,-1])
     b = np.trapz(v1_2d[x_i,:],x2_2d[x_i,:])
     return 1 / a * b
 
+fig5 = plt.figure("Figure 5",figsize=(13,6.5))
+plt.rcParams['font.size'] = '20'
+plt.clf() #clear the figure
+plt.plot(x1_2d[:,0], V_b(range(0,ni)))
+plt.legend()
+plt.xlabel("$x [m]$")
+plt.ylabel("$v [m/s]$")
+plt.title("Bulk velocity")
+plt.savefig('BulkVel.eps', bbox_inches = 'tight')
+
 rho = 998.29 #kg/m^3
 P_bern = np.zeros(ni)
 for i in range(0,ni):
-    P_bern[i] = V_b(i)**2 /2 * rho
+    P_bern[i] = (V_b(0)**2-V_b(i)**2) /2 * rho
 
 #Starccm bulk pressure
 def P_b(x_i):
@@ -262,7 +273,18 @@ def P_b(x_i):
 
 P_star = np.zeros(ni)
 for i in range(0,ni):
-    P_star[i] = P_b(i)
+    P_star[i] = P_b(i) - P_b(0)
+
+fig5 = plt.figure("Figure 5",figsize=(13,6.5))
+plt.rcParams['font.size'] = '20'
+plt.clf() #clear the figure
+plt.plot(x1_2d[:,0], P_bern, label='Bernoulli equation')
+plt.plot(x1_2d[:,0], P_star, label='Bulk pressure')
+plt.legend()
+plt.xlabel("$x [m]$")
+plt.ylabel("$P [Pa]$")
+plt.title("Pressures from different approaches")
+plt.savefig('Pressures.eps', bbox_inches = 'tight')
 
 print('mean flow velocity: ', str(V_b(int(ni/2))))
 print('The pressure drop according to the Bernoulli principle is', str(np.abs(P_bern[-1] - P_bern[0])), 'Pascals.')
