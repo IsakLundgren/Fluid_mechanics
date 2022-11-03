@@ -456,7 +456,7 @@ plt.title("Contour turbulent kinetic energy plot")
 plt.colorbar()
 plt.savefig('TurbKinEn_contour.eps', bbox_inches = 'tight')
 
-P_k = vist_2d * (2*dv1dx1_2d**2 + (dv1dx2_2d + dv2dx1_2d)**2 + 2*dv2dx2_2d**2)
+P_k = nu_t * (dv1dx1_2d**2 + 2*dv1dx2_2d*dv2dx1_2d + dv2dx2_2d**2)
 fig13 = plt.figure("Figure 13",figsize=(13,6.5))
 plt.rcParams['font.size'] = '30'
 plt.clf() #clear the figure
@@ -518,21 +518,20 @@ for i in range(nOS):
     pts[i] = i+1
 pts[-1] = pts[-1] + 1
 
-fig15 = plt.figure("Figure 15",figsize=(13,6.5))
-plt.rcParams['font.size'] = '30'
+
+fig10, axs = plt.subplots(1, nOS, sharex=True, sharey=True, figsize=(16,7))
+fig10.suptitle('Experimental and simulated velocities at different $x_1$ stations')
+plt.rcParams['font.size'] = '20'
 for i in range(nOS):
-    j = (np.abs(pts[i] * hmax-x1_2d[:,[i]])).argmin()
+    j = (np.abs(pts[i] * hmax-x1_2d[:,i])).argmin()
     fileDir[i] = fileDir[i] + str('{0:.0f}'.format(pts[i])) + ".xy"
     #print(fileDir[i])
     xh=np.genfromtxt(fileDir[i], comments="%")
     yExp = xh[:,0]
     v1Exp = xh[:,1]
-    plt.plot(v1_2d[j,:],x2_2d[i1,:],'b-')
-    plt.plot(v1Exp,yExp,'bo')
-
-plt.xlabel("$V_1$")
-plt.ylabel("$x_2$")
-plt.title("Velocity")
+    axs[i].plot(v1_2d[j,:],x2_2d[j,:],'b-')
+    axs[i].plot(v1Exp,yExp,'bo')
+fig10.supxlabel("$V_1$")
+fig10.supylabel("$x_2$")
 plt.savefig('VelExpComp.eps', bbox_inches = 'tight')
 
-plt.show(block=True)
