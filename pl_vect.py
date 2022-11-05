@@ -508,6 +508,23 @@ print('Biggest differences in dissipation rates calculated with python/starccm+'
 print('Bottom: ', str(np.max(dispRateCalcBot - diss_2d[:,1])))
 print('Top: ',str(np.max(dispRateCalcTop - diss_2d[:,-1])))
 
+fig, axs = plt.subplots(2,1,sharex=True,figsize=(16,12))
+fig.suptitle('Dissipation rates on wall boundaries')
+
+axs[0].set_title('Top wall')
+axs[0].plot(x1_2d[:,-1], diss_2d[:,-1], 'b-', label = 'From StarCCM+') #Top wall
+axs[0].plot(x1_2d[:,-1], dispRateCalcTop, 'r-', label = 'From python script') #Top wall
+axs[0].legend()
+
+axs[1].set_title('Bottom wall')
+axs[1].plot(x1_2d[:,1], diss_2d[:,1], 'b-', label = 'From StarCCM+') #Bottom wall
+axs[1].plot(x1_2d[:,1], dispRateCalcBot, 'r-', label = 'From python script') #Bottom wall
+axs[1].legend()
+
+fig.supylabel('ε')
+fig.supxlabel('$x_1$')
+plt.savefig('DispRate_plot.eps', bbox_inches = 'tight')
+
 #############################################################Compare with experimental data for v_1
 
 nOS = 7 #Number of stations
